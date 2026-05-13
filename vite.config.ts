@@ -4,30 +4,23 @@ import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
-  // بارکردنی گۆڕدراوەکانی ژینگە (Environment Variables)
   const env = loadEnv(mode, '.', '');
-  
   return {
-    // گۆڕینی base بۆ ناوی پڕۆژەکەت لە گێتهاب بۆ چارەسەری هەڵەی 404
-    base: '/saman-watchh/', 
-    
+    base: '/saman-watchh/', // Set to your repository name
     plugins: [react(), tailwindcss()],
-    
     define: {
-      // دڵنیابوونەوە لەوەی کلیلەکە دەناسرێتەوە
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
-    
     resolve: {
       alias: {
-        // ڕێکخستنی ناوی کورتکراوە بۆ فایلەکان
         '@': path.resolve(__dirname, '.'),
       },
     },
-    
     server: {
-      // ئەم بەشانە وەک خۆی لێ گەڕێ بۆ ئەوەی لەگەڵ AI Studio بگونجێت
+      // HMR is disabled in AI Studio via DISABLE_HMR env var.
+      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
+      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };
