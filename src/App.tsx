@@ -25,12 +25,6 @@ interface LinkItem {
 }
 
 export default function App() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const links: LinkItem[] = [
     {
       id: "instagram",
@@ -73,8 +67,6 @@ export default function App() {
       color: "from-green-500 to-emerald-600",
     },
   ];
-
-  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500/30 overflow-x-hidden relative" dir="rtl">
